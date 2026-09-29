@@ -1,0 +1,50 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Android: Build Debug APK",
+      "type": "shell",
+      "command": "./gradlew",
+      "args": ["assembleDebug"],
+      "options": {
+        "env": {
+          "ANDROID_HOME": "${env:HOME}/Library/Android/sdk",
+          "ANDROID_SDK_ROOT": "${env:HOME}/Library/Android/sdk"
+        }
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Android: Install Debug APK",
+      "type": "shell",
+      "command": "./gradlew",
+      "args": ["installDebug"],
+      "options": {
+        "env": {
+          "ANDROID_HOME": "${env:HOME}/Library/Android/sdk",
+          "ANDROID_SDK_ROOT": "${env:HOME}/Library/Android/sdk"
+        }
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Android: Launch on Device",
+      "type": "shell",
+      "command": "${env:HOME}/Library/Android/sdk/platform-tools/adb",
+      "args": [
+        "shell",
+        "am",
+        "start",
+        "-n",
+        "com.example.englishvoicecoach/.MainActivity"
+      ],
+      "dependsOn": "Android: Install Debug APK",
+      "dependsOrder": "sequence",
+      "problemMatcher": []
+    }
+  ]
+}

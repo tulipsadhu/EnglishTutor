@@ -265,7 +265,9 @@ public class LearningActivity extends Activity {
 
     private void renderCurrentPrompt(DailyPracticeFactory.Prompt prompt, int sentenceIndex) {
         LinearLayout sentenceCard = card();
-        label(sentenceCard, prompt.newToday ? "NEW SENTENCE" : "SPACED REVIEW");
+            String promptType = prompt.newToday ? "NEW SENTENCE"
+                    : progress.activeDayIndex == 0 ? "EXTRA PRACTICE" : "SPACED REVIEW";
+            label(sentenceCard, promptType);
         addTop(sentenceCard, text("“" + prompt.sentence.english + "”", 19, INK, true), 8);
         Button translation = button(showBengaliHelp ? prompt.sentence.bengali : "বাংলা সাহায্য দেখুন", false);
         translation.setOnClickListener(view -> {
@@ -315,7 +317,9 @@ public class LearningActivity extends Activity {
                     new LinearLayout.LayoutParams(dp(39), -2));
             LinearLayout sentenceText = column();
             sentenceText.addView(text(prompt.sentence.english, 14, INK, i == currentIndex));
-            addTop(sentenceText, text(prompt.newToday ? "NEW" : "REVIEW", 10, GREEN, true), 3);
+                String promptType = prompt.newToday ? "NEW"
+                    : progress.activeDayIndex == 0 ? "EXTRA PRACTICE" : "REVIEW";
+                addTop(sentenceText, text(promptType, 10, GREEN, true), 3);
             row.addView(sentenceText, new LinearLayout.LayoutParams(0, -2, 1f));
             addTop(content, row, 6);
         }

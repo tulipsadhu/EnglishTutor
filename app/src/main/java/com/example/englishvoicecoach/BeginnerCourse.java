@@ -36,15 +36,7 @@ final class BeginnerCourse {
     }
 
     static BeginnerCourse load(Context context) throws IOException, JSONException {
-        byte[] data;
-        try (InputStream input = context.getAssets().open("basic_course.json");
-             ByteArrayOutputStream output = new ByteArrayOutputStream()) {
-            byte[] buffer = new byte[4096];
-            int count;
-            while ((count = input.read(buffer)) != -1) output.write(buffer, 0, count);
-            data = output.toByteArray();
-        }
-        JSONObject root = new JSONObject(new String(data, StandardCharsets.UTF_8));
+        JSONObject root = new JSONObject(readAsset(context, "basic_course.json"));
         List<SessionBlock> session = new ArrayList<>();
         JSONArray sessionArray = root.getJSONArray("session");
         for (int i = 0; i < sessionArray.length(); i++) {
@@ -57,17 +49,34 @@ final class BeginnerCourse {
             JSONObject item = dayArray.getJSONObject(i);
             days.add(parseDay(item));
         }
+        JSONObject extended = new JSONObject(readAsset(context, "course_days_15_90.json"));
+        JSONArray extendedDays = extended.getJSONArray("days");
+        for (int i = 0; i < extendedDays.length(); i++) {
+            days.add(parseDay(extendedDays.getJSONObject(i)));
+        }
         return new BeginnerCourse(root.getString("level"), session, days);
+    }
+
+    private static String readAsset(Context context, String filename) throws IOException {
+        try (InputStream input = context.getAssets().open(filename);
+             ByteArrayOutputStream output = new ByteArrayOutputStream()) {
+            byte[] buffer = new byte[4096];
+            int count;
+            while ((count = input.read(buffer)) != -1) output.write(buffer, 0, count);
+            return new String(output.toByteArray(), StandardCharsets.UTF_8);
+        }
     }
 
     private static Day parseDay(JSONObject item) throws JSONException {
         List<VocabularyWord> words = new ArrayList<>();
-        JSONArray wordArray = item.getJSONArray("words");
-        for (int i = 0; i < wordArray.length(); i++) {
-            JSONObject word = wordArray.getJSONObject(i);
-            words.add(new VocabularyWord(
-                    word.getString("word"), word.getString("bn"), word.getString("meaning")
-            ));
+        JSONArray wordArray = item.optJSONArray("words");
+        if (wordArray != null) {
+            for (int i = 0; i < wordArray.length(); i++) {
+                JSONObject word = wordArray.getJSONObject(i);
+                words.add(new VocabularyWord(
+                        word.getString("word"), word.getString("bn"), word.getString("meaning")
+                ));
+            }
         }
         List<PracticeSentence> sentences = new ArrayList<>();
         JSONArray sentenceArray = item.getJSONArray("sentences");
@@ -75,10 +84,13 @@ final class BeginnerCourse {
             JSONObject sentence = sentenceArray.getJSONObject(i);
             sentences.add(new PracticeSentence(sentence.getString("en"), sentence.getString("bn")));
         }
-        JSONObject rolePlay = item.getJSONObject("roleplay");
+        CourseSyllabus.DayPlan plan = CourseSyllabus.forDay(item.getInt("day"));
+        JSONObject rolePlay = item.optJSONObject("roleplay");
         return new Day(
-                item.getInt("day"), item.getString("title"), item.getString("focus"),
-                rolePlay.getString("en"), rolePlay.getString("bn"), words, sentences
+            item.getInt("day"), item.optString("title", plan.title), item.optString("focus", plan.focus),
+            rolePlay == null ? plan.rolePlay : rolePlay.optString("en", plan.rolePlay),
+            rolePlay == null ? plan.bengaliRolePlay : rolePlay.optString("bn", plan.bengaliRolePlay),
+            words, sentences
         );
     }
 

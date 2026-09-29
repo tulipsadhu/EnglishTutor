@@ -336,8 +336,8 @@ public class LearningActivity extends Activity {
         if (recognizedText != null && selectedTab == 0) addTop(roleplay, text("You said: “" + recognizedText + "”", 13, GREEN, false), 8);
         addTop(content, roleplay, 16);
         LinearLayout sessionPlan = card();
-        label(sessionPlan, "DAILY ROUTINE  ·  37 MINUTES");
-        addTop(sessionPlan, text("5 min review · 12 min listening and speaking · 10 min conversation · 5 min reflection · 5 min recall", 13, MUTED, false), 7);
+        label(sessionPlan, "DAILY ROUTINE  ·  42 MINUTES");
+        addTop(sessionPlan, text("5 min vocabulary · 12 min new sentences · 12 min spaced review · 8 min role-play · 5 min reflection", 13, MUTED, false), 7);
         addTop(content, sessionPlan, 12);
     }
 

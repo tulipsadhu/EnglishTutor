@@ -5,10 +5,10 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class LearningProgressTest {
+public class SpeechScoringTest {
     @Test
     public void exactTranscriptMatchesCompletely() {
-        assertEquals(100, LearningProgress.wordMatchScore(
+        assertEquals(100, SpeechScoring.wordMatchScore(
                 "I am learning English every day.",
                 "I am learning English every day"
         ));
@@ -16,7 +16,7 @@ public class LearningProgressTest {
 
     @Test
     public void omittedWordProducesPartialMatch() {
-        assertEquals(83, LearningProgress.wordMatchScore(
+        assertEquals(83, SpeechScoring.wordMatchScore(
                 "I am learning English every day.",
                 "I am learning every day"
         ));
@@ -24,13 +24,11 @@ public class LearningProgressTest {
 
     @Test
     public void reorderedWordsAreNotCountedAsAnExactMatch() {
-        assertTrue(LearningProgress.wordMatchScore("I like learning English", "English learning like I") < 70);
+        assertTrue(SpeechScoring.wordMatchScore("I like learning English", "English learning like I") < 70);
     }
 
     @Test
-    public void curriculumMovesFromBasicToAdvanced() {
-        assertEquals(12, LearningProgress.LESSONS.size());
-        assertEquals("Basic", LearningProgress.LESSONS.get(0).level);
-        assertEquals("Advanced", LearningProgress.LESSONS.get(11).level);
+    public void emptyTranscriptHasNoMatch() {
+        assertEquals(0, SpeechScoring.wordMatchScore("Hello there", "  "));
     }
 }

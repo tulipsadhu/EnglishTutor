@@ -40,7 +40,7 @@
         "am",
         "start",
         "-n",
-        "com.example.englishvoicecoach/.MainActivity"
+        "com.example.englishvoicecoach/.LearningActivity"
       ],
       "dependsOn": "Android: Install Debug APK",
       "dependsOrder": "sequence",

@@ -1,12 +1,13 @@
 # English Voice Coach
 
-This repository contains a first-version Android starter app for an English learning voice assistant.
+This repository contains a Java Android app for daily English speaking practice.
 
 ## Features
-- Speak a practice sentence using a voice assistant
-- Listen to spoken English through Text-to-Speech
-- Capture the user's speech with Android speech recognition
-- Build a base for later AI-based pronunciation feedback
+- Bengali-language onboarding and optional Bengali lesson help
+- A 12-lesson path from Basic through Advanced English
+- Spoken prompts, speech recognition, and spoken practice feedback
+- Locally saved lesson progress, practice days, and streak
+- Lesson advancement based on recognized word-order match; this is not pronunciation or accent scoring
 
 ## Run from VS Code
 
@@ -17,4 +18,4 @@ In VS Code, run **Tasks: Run Task** and choose **Android: Launch on Device**. To
 The SDK should be installed at the standard macOS location (`~/Library/Android/sdk`). Alternatively, set `ANDROID_HOME` to your SDK location before running the tasks. Gradle uses `local.properties` if it exists; that machine-specific file is ignored by Git.
 
 ## Notes
-This is a beginner-friendly prototype. The next step would be adding API-based AI evaluation, pronunciation scoring, or a lesson flow.
+Progress is stored on the device. Gemini is not connected in this phase; a Gemini API integration will need separate API access and billing, rather than a Google One/Gemini phone subscription.

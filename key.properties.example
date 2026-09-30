@@ -1,0 +1,4 @@
+storeFile=upload-key.jks
+storePassword=SET_LOCALLY
+keyAlias=upload
+keyPassword=SET_LOCALLY

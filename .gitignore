@@ -1,6 +1,9 @@
 *.iml
 .gradle
 /local.properties
+/key.properties
+/upload-key.jks
+/*.keystore
 /.idea/
 /.vscode/*
 !/.vscode/tasks.json
